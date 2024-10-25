@@ -1,86 +1,106 @@
-/* color palette from <https://github.com/vuejs/theme> */
-:root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
-
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
-
-  --vt-c-indigo: #2c3e50;
-
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+.el-button-group {
+	display: inline-block;
+	vertical-align: middle;
 }
-
-/* semantic color variables for this project */
-:root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
-
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
-
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-
-  --section-gap: 160px;
+.el-button-group:after,
+.el-button-group:before {
+	content: '';
+	display: table;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
+.el-button-group:after {
+	clear: both;
 }
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
+.el-button-group > .el-button {
+	float: left;
+	position: relative;
 }
-
-body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.el-button-group > .el-button + .el-button {
+	margin-left: 0;
+}
+.el-button-group > .el-button:first-child {
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+.el-button-group > .el-button:last-child {
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+}
+.el-button-group > .el-button:first-child:last-child {
+	border-bottom-left-radius: var(--el-border-radius-base);
+	border-bottom-right-radius: var(--el-border-radius-base);
+	border-top-left-radius: var(--el-border-radius-base);
+	border-top-right-radius: var(--el-border-radius-base);
+}
+.el-button-group > .el-button:first-child:last-child.is-round {
+	border-radius: var(--el-border-radius-round);
+}
+.el-button-group > .el-button:first-child:last-child.is-circle {
+	border-radius: 50%;
+}
+.el-button-group > .el-button:not(:first-child):not(:last-child) {
+	border-radius: 0;
+}
+.el-button-group > .el-button:not(:last-child) {
+	margin-right: -1px;
+}
+.el-button-group > .el-button.is-active,
+.el-button-group > .el-button:active,
+.el-button-group > .el-button:focus,
+.el-button-group > .el-button:hover {
+	z-index: 1;
+}
+.el-button-group > .el-dropdown > .el-button {
+	border-bottom-left-radius: 0;
+	border-left-color: var(--el-button-divide-border-color);
+	border-top-left-radius: 0;
+}
+.el-button-group .el-button--primary:first-child {
+	border-right-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--primary:last-child {
+	border-left-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--primary:not(:first-child):not(:last-child) {
+	border-left-color: var(--el-button-divide-border-color);
+	border-right-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--success:first-child {
+	border-right-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--success:last-child {
+	border-left-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--success:not(:first-child):not(:last-child) {
+	border-left-color: var(--el-button-divide-border-color);
+	border-right-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--warning:first-child {
+	border-right-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--warning:last-child {
+	border-left-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--warning:not(:first-child):not(:last-child) {
+	border-left-color: var(--el-button-divide-border-color);
+	border-right-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--danger:first-child {
+	border-right-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--danger:last-child {
+	border-left-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--danger:not(:first-child):not(:last-child) {
+	border-left-color: var(--el-button-divide-border-color);
+	border-right-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--info:first-child {
+	border-right-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--info:last-child {
+	border-left-color: var(--el-button-divide-border-color);
+}
+.el-button-group .el-button--info:not(:first-child):not(:last-child) {
+	border-left-color: var(--el-button-divide-border-color);
+	border-right-color: var(--el-button-divide-border-color);
 }
