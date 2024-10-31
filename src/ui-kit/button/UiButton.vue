@@ -59,7 +59,7 @@
 				| 'outline-dark'
 				| 'link'
 			>,
-			default: ''
+			default: 'primary'
 		},
 		size: {
 			type: String as PropType<Size>,

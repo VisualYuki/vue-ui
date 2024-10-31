@@ -1,7 +1,8 @@
 <template>
-	<div>
+	<div @click="methods.toggle">
 		{{ data.label }}
-		<div class="child">
+		{{ data.children?.length ? 'есть дети' : 'нет детей' }}
+		<div class="child" :class="{'d-none': !data.expanded}">
 			<tree-node v-for="data in props.data.children" :data="data"></tree-node>
 		</div>
 	</div>
@@ -17,6 +18,15 @@
 			required: true
 		}
 	})
+
+	const methods = {
+		toggle() {
+			props.data.expanded = !props.data.expanded
+		}
+	}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+	.child {
+	}
+</style>
