@@ -112,13 +112,7 @@ export const Variant: Story = {
 				<UiButton variant='link'> button content </UiButton>
 			</div>
 		`
-	}),
-	argTypes: {
-		size: {control: 'select', options: ['small', 'medium', 'large', '1']},
-		backgroundColor: {control: 'color'}
-	},
-
-	args: {}
+	})
 }
 
 export const Sizes: Story = {
