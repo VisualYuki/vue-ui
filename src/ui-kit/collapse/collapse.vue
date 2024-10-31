@@ -5,11 +5,18 @@
 </template>
 
 <script lang="ts" setup>
-	import {provide} from 'vue'
+	import {provide, watch} from 'vue'
 
 	const model = defineModel<string[]>({
-		default: []
+		default: [],
+		set(value) {
+			emit('change', model.value)
+
+			return value
+		}
 	})
+
+	const emit = defineEmits(['change'])
 
 	const props = defineProps({
 		accordion: {

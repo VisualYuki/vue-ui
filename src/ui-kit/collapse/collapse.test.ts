@@ -1,38 +1,69 @@
 import {mount} from '@vue/test-utils'
 import {describe, expect, it} from 'vitest'
-import collapse from './collapse.vue'
-import collapseItem from './collapseItem.vue'
+import Collapse from './collapse.vue'
+import CollapseItem from './collapse-item.vue'
+import {h} from 'vue'
 
-describe('button', () => {
-	it('closable', async () => {
-		const wrapper = mount(alert, {
+describe('collapse', () => {
+	it('default', async () => {
+		const wrapper = mount(Collapse, {
 			props: {
-				closable: true
+				modelValue: ['1']
+			},
+			slots: {
+				default: [
+					h(
+						CollapseItem,
+						{name: '1'},
+						{
+							default: () => 'collapse item 1'
+						}
+					),
+					h(
+						CollapseItem,
+						{name: '2'},
+						{
+							default: () => 'collapse item 2'
+						}
+					)
+				]
 			}
 		})
 
-		await wrapper.find('.btn-close').trigger('click')
+		await wrapper.find(".accordion-item[id='2'] .accordion-header").trigger('click')
 
-		expect(wrapper.emitted()).toHaveProperty('close')
-		expect(wrapper.emitted()).toHaveProperty('click')
-		expect(wrapper.emitted()).toHaveProperty('update:modelValue')
-		expect(wrapper.classes()).not.toContain('alert')
+		expect(wrapper.vm.modelValue).toEqual(['1', '2'])
 	})
 
-	it('icon slot', async () => {
-		const wrapper = mount(alert, {
+	it('prop: accordion', async () => {
+		const wrapper = mount(Collapse, {
 			props: {
-				showIcon: false
+				modelValue: ['1'],
+				accordion: true,
+				'onUpdate:modelValue': (e: string[]) => wrapper.setProps({modelValue: e})
+			},
+			slots: {
+				default: [
+					h(
+						CollapseItem,
+						{name: '1'},
+						{
+							default: () => 'collapse item 1'
+						}
+					),
+					h(
+						CollapseItem,
+						{name: '2'},
+						{
+							default: () => 'collapse item 2'
+						}
+					)
+				]
 			}
 		})
 
-		expect(wrapper.element.querySelector('.alert-icon')).toBeFalsy()
+		await wrapper.find(".accordion-item[id='2'] .accordion-header").trigger('click')
 
-		await wrapper.setProps({
-			showIcon: true,
-			variant: 'success'
-		})
-
-		expect(wrapper.element.querySelector('.alert-icon')).toBeTruthy()
+		expect(wrapper.vm.modelValue).toEqual(['2'])
 	})
 })

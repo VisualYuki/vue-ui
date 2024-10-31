@@ -1,11 +1,13 @@
 <template>
-	<div class="accordion-item">
+	<div :id="props.name" class="accordion-item">
 		<div class="accordion-header" @click="methods.handleClick">
 			<button class="accordion-button" :class="{collapsed: !isActive}">{{ props.title }}</button>
 		</div>
 		<collapse-transition>
 			<div v-show="isActive" class="transition-accordion-body">
-				<div class="accordion-body"><slot></slot></div>
+				<div class="accordion-body">
+					<slot></slot>
+				</div>
 			</div>
 		</collapse-transition>
 	</div>
