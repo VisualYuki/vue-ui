@@ -1,9 +1,7 @@
 <template>
 	<div ref="scrollbarRef" class="scrollbar">
-		<div class="content-wrap" @scroll="handleScroll">
-			<div ref="resizeRef">
-
-			</div>
+		<div class="content-wrap">
+			<div ref="resizeRef"></div>
 		</div>
 		<template v-if="!native">bar component</template>
 	</div>

@@ -1,6 +1,6 @@
 import {mount} from '@vue/test-utils'
 import {describe, expect, it} from 'vitest'
-import UiSpinner from '../Spinner/Spinner.vue'
+import UiSpinner from '../spinner/Spinner.vue'
 import UiButton from './UiButton.vue'
 //import BLink from '../BLink/BLink.vue'
 
