@@ -2,15 +2,16 @@
 	<component
 		:is="props.tag"
 		ref="button"
-		class="btn"
+		class="ui-button"
 		:class="[
-			`btn-${props.variant}`,
+			`ui-button_${props.type}`,
 			{
-				[`btn-${props.size}`]: props.size !== 'md',
-				active: props.active || pressedValue,
-				'rounded-pill': props.pill,
-				'rounded-0': props.squared,
-				disabled: _computed.disabled.value
+				//[`btn-${props.size}`]: props.size !== 'md',
+				//active: props.active || pressedValue,
+				//'rounded-pill': props.pill,
+				//'rounded-0': props.squared,
+				'ui-button_plain': props.plain
+				//disabled: _computed.disabled.value
 			}
 		]"
 		:disabled="_computed.disabled.value"
@@ -30,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-	import {type Variant} from '@/types/unions'
+	import {type ColorType} from '@/types/unions'
 	import {type PropType, useTemplateRef} from 'vue'
 	import UiSpinner from '../spinner/Spinner.vue'
 	import type {Size} from '@/types/size'
@@ -46,20 +47,13 @@
 			type: String as PropType<keyof HTMLElementTagNameMap | 'RouterLink'>,
 			default: 'button'
 		},
-		variant: {
-			type: String as PropType<
-				| Variant
-				| 'outline-primary'
-				| 'outline-secondary'
-				| 'outline-success'
-				| 'outline-danger'
-				| 'outline-warning'
-				| 'outline-info'
-				| 'outline-light'
-				| 'outline-dark'
-				| 'link'
-			>,
-			default: 'primary'
+		plain: {
+			type: Boolean,
+			default: false
+		},
+		type: {
+			type: String as PropType<ColorType>,
+			default: ''
 		},
 		size: {
 			type: String as PropType<Size>,
@@ -128,19 +122,21 @@
 </script>
 
 <style lang="scss" scoped>
-	.spinner-slot {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-	}
+	@use './button.scss';
 
-	.btn {
-		position: relative;
+	// .spinner-slot {
+	// 	position: absolute;
+	// 	left: 50%;
+	// 	top: 50%;
+	// 	transform: translate(-50%, -50%);
+	// }
 
-		&.disabled {
-			pointer-events: all;
-			cursor: not-allowed;
-		}
-	}
+	// .btn {
+	// 	position: relative;
+
+	// 	&.disabled {
+	// 		pointer-events: all;
+	// 		cursor: not-allowed;
+	// 	}
+	// }
 </style>

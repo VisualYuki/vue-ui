@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 	import type {PropType} from 'vue'
-	import Button from './UiButton.vue'
+	import Button from './button.vue'
 	import type {ButtonType} from '@/types/button'
 
 	const props = defineProps({

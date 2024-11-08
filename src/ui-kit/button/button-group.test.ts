@@ -1,11 +1,11 @@
 import {mount} from '@vue/test-utils'
 
 import {expect, it, describe} from 'vitest'
-import UiButtonGroup from './UiButtonGroup.vue'
+import ButtonGroup from './button-group.vue'
 
 describe('', () => {
 	it('default', () => {
-		const wrapper = mount(UiButtonGroup, {})
+		const wrapper = mount(ButtonGroup, {})
 
 		expect(wrapper.classes()).toContain('btn-group')
 		expect(wrapper.classes()).not.toContain('btn-group-vertical')
@@ -14,7 +14,7 @@ describe('', () => {
 	})
 
 	it('props', () => {
-		const wrapper = mount(UiButtonGroup, {
+		const wrapper = mount(ButtonGroup, {
 			props: {
 				vertical: true,
 				tag: 'span',
@@ -28,7 +28,7 @@ describe('', () => {
 	})
 
 	it('render default slot', () => {
-		const wrapper = mount(UiButtonGroup, {
+		const wrapper = mount(ButtonGroup, {
 			slots: {
 				default: 'text'
 			}

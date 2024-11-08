@@ -16,7 +16,7 @@
 					:class="_computed.modalDialogClasses.value"
 				>
 					<div class="modal-content">
-						<UiButton>click</UiButton>
+						<Button>click</Button>
 						<div class="modal-header">
 							<slot name="header">
 								<button ref="cancelBtn" class="btn btn-primary">close</button>
@@ -46,7 +46,7 @@
 	import {computed} from 'vue'
 	import {onKeyStroke, useFocus} from '@vueuse/core'
 	import {ref, watch} from 'vue'
-	import UiButton from '../button/UiButton.vue'
+	import Button from '../button/button.vue'
 
 	const props = defineProps({
 		teleportTo: {

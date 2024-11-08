@@ -1,0 +1,36 @@
+@use './utils' as *;
+@use './override-vars' as *;
+@use 'sass:color';
+@use 'sass:math';
+
+:root {
+	@each $item in $color-types {
+		@include set-css-vars($colors, $item);
+	}
+
+	@include set-css-var(('color', 'white'), $color-white);
+	@include set-css-var(('color', 'black'), $color-black);
+
+	@include set-css-var((font, weight, primary), 500);
+
+	@include set-local-css-vars('font-family', $font-family);
+	@include set-local-css-vars('font-size', $font-size);
+	@include set-local-css-vars('text-color', $text-color);
+	@include set-local-css-vars('border-radius', $border-radius);
+
+	@each $i in (1, 2, 3, 4, 5, 6, 7, 8, 9) {
+		@include set-css-var(('color', 'black', $i), color.mix($color-white, $color-black, math.percentage(math.div($i, 10))));
+	}
+}
+
+// LIGHT THEME
+:root {
+	@include set-css-var('border-width', $border-width);
+	@include set-css-var('border-style', $border-style);
+	//@include set-css-var('border-color', $text-color);
+
+	@include set-local-css-vars('border-color', $border-color);
+	@include set-local-css-vars('fill-color', $fill-color);
+
+	@include set-css-var('border', #{getCssVar('border-width') getCssVar('border-style') getCssVar('border-color')});
+}

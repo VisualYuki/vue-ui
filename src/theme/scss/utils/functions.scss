@@ -1,0 +1,21 @@
+@use './config';
+
+@function joinWords($words) {
+	$result: '--' + config.$namespace;
+
+	@each $item in $words {
+		@if ($item != '') {
+			$result: $result + '-' + '#{$item}';
+		}
+	}
+
+	@return $result;
+}
+
+@function getCssVar($words: ()) {
+	@return var(#{joinWords($words)});
+}
+
+@function getCssVarName($words) {
+	@return joinWords($words);
+}

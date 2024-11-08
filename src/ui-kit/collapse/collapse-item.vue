@@ -36,6 +36,8 @@
 
 	const methods = {
 		handleClick() {
+			console.log('handleClick')
+
 			if (parentProps.accordion) {
 				if (isActive.value) {
 					activeNames.value = []

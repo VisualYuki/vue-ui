@@ -3,7 +3,13 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
 	root: true,
-	extends: ['plugin:vue/vue3-recommended', 'eslint:recommended', '@vue/eslint-config-typescript', '@vue/eslint-config-prettier/skip-formatting', 'plugin:storybook/recommended'],
+	extends: [
+		'plugin:vue/vue3-recommended',
+		'eslint:recommended',
+		'@vue/eslint-config-typescript',
+		'@vue/eslint-config-prettier/skip-formatting',
+		'plugin:storybook/recommended'
+	],
 	overrides: [
 		{
 			files: ['cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}', 'cypress/support/**/*.{js,ts,jsx,tsx}'],
@@ -14,7 +20,7 @@ module.exports = {
 		ecmaVersion: 'latest'
 	},
 	rules: {
-		'vue/multi-word-component-names': 'off',
+		//'vue/multi-word-component-names': 'off',
 		'vue/block-lang': [
 			'error',
 			{
@@ -22,7 +28,7 @@ module.exports = {
 					lang: 'ts'
 				}
 			}
-		],
+		]
 		// 'vue/define-macros-order': [
 		// 	'error',
 		// 	{

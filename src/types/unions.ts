@@ -1,9 +1,1 @@
-export type Variant =
-  | "primary"
-  | "secondary"
-  | "success"
-  | "danger"
-  | "warning"
-  | "info"
-  | "light"
-  | "dark";
+export type ColorType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info'

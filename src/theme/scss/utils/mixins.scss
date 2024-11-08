@@ -1,0 +1,44 @@
+@use './config';
+@use 'sass:map';
+@use './functions.scss' as *;
+@use 'sass:meta';
+
+@mixin b($name) {
+	$B: config.$namespace + config.$common-separator + $name;
+
+	.#{$B} {
+		@content;
+	}
+}
+
+@mixin m($modifier) {
+	$selector: '&' + config.$modifier-separator + $modifier;
+
+	@at-root #{$selector} {
+		@content;
+	}
+}
+
+@mixin set-local-css-vars($name: '', $attributes: ()) {
+	@each $prop, $value in $attributes {
+		@include set-css-var(($name, $prop), $value);
+	}
+}
+
+@mixin set-css-var($words: (), $value) {
+	@if (meta.type-of($value) == 'list') {
+		#{joinWords($words)}: #{getCssVar($value)};
+	} @else {
+		#{joinWords($words)}: $value;
+	}
+}
+
+@mixin set-css-vars($colors, $type) {
+	@include set-css-var(('color', $type), map.get($colors, $type, 'base'));
+
+	@each $i in (3, 5, 7, 8, 9) {
+		@include set-css-var(('color', $type, 'light', $i), map.get($colors, $type, 'light-#{$i}'));
+	}
+
+	@include set-css-var(('color', $type, 'dark', 2), map.get($colors, $type, 'dark-#{2}'));
+}

@@ -1,23 +1,23 @@
 import {mount} from '@vue/test-utils'
 import {describe, expect, it} from 'vitest'
 import UiSpinner from '../spinner/Spinner.vue'
-import UiButton from './UiButton.vue'
+import Button from './Button.vue'
 //import BLink from '../BLink/BLink.vue'
 
 describe('button', () => {
 	it('has static class btn', () => {
-		const wrapper = mount(UiButton)
+		const wrapper = mount(Button)
 
 		expect(wrapper.classes()).toContain('btn')
 	})
 
 	it('has tag button by default', () => {
-		const wrapper = mount(UiButton)
+		const wrapper = mount(Button)
 		expect(wrapper.element.tagName).toBe('BUTTON')
 	})
 
 	it('has class btn-{type} when prop variant', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {variant: 'primary'}
 		})
 		expect(wrapper.classes()).toContain('btn-primary')
@@ -26,7 +26,7 @@ describe('button', () => {
 	})
 
 	it('has class btn-{type} when prop variant', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {variant: 'primary'}
 		})
 		expect(wrapper.classes()).toContain('btn-primary')
@@ -35,7 +35,7 @@ describe('button', () => {
 	})
 
 	it('has class btn-{type} when prop size', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {size: 'sm'}
 		})
 		expect(wrapper.classes()).toContain('btn-sm')
@@ -44,7 +44,7 @@ describe('button', () => {
 	})
 
 	it('has class active when prop active', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {active: true}
 		})
 		expect(wrapper.classes()).toContain('active')
@@ -53,7 +53,7 @@ describe('button', () => {
 	})
 
 	it('has class rounded-pill when prop pill', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {pill: true}
 		})
 		expect(wrapper.classes()).toContain('rounded-pill')
@@ -62,7 +62,7 @@ describe('button', () => {
 	})
 
 	it('has class rounded-0 when prop squared', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {squared: true}
 		})
 		expect(wrapper.classes()).toContain('rounded-0')
@@ -71,7 +71,7 @@ describe('button', () => {
 	})
 
 	it('has class disabled when prop disabled', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {disabled: true}
 		})
 		expect(wrapper.classes()).toContain('disabled')
@@ -80,7 +80,7 @@ describe('button', () => {
 	})
 
 	it('has attr disabled when is button and prop disabled', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {disabled: true}
 		})
 		expect(wrapper.attributes('disabled')).toBe('')
@@ -89,7 +89,7 @@ describe('button', () => {
 	})
 
 	it('has attr type when when prop type', async () => {
-		const wrapper = mount(UiButton)
+		const wrapper = mount(Button)
 		expect(wrapper.attributes('type')).toBe('button')
 		await wrapper.setProps({htmlType: 'submit'})
 		expect(wrapper.attributes('type')).toBe('submit')
@@ -98,20 +98,20 @@ describe('button', () => {
 	})
 
 	it('emits click when clicked', async () => {
-		const wrapper = mount(UiButton)
+		const wrapper = mount(Button)
 		await wrapper.trigger('click')
 		expect(wrapper.emitted()).toHaveProperty('click')
 	})
 
 	it('click emit value is MouseEvent', async () => {
-		const wrapper = mount(UiButton)
+		const wrapper = mount(Button)
 		await wrapper.trigger('click')
 		const $emitted = wrapper.emitted('click') ?? []
 		expect($emitted[0][0] instanceof MouseEvent).toBe(true)
 	})
 
 	it('click does not emit event when disabled', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {disabled: true}
 		})
 		await wrapper.trigger('click')
@@ -119,7 +119,7 @@ describe('button', () => {
 	})
 
 	it('loading prop', async () => {
-		const wrapper = mount(UiButton, {
+		const wrapper = mount(Button, {
 			props: {
 				loading: true
 			}
