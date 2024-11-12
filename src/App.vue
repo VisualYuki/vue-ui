@@ -1,5 +1,5 @@
 <template>
-	<Tree :data="treeData"></Tree>
+	<!-- <Tree :data="treeData"></Tree> -->
 	<!-- <UiButton>sdf</UiButton> -->
 
 	<!-- <collapse v-model="activeNames" accordion @change="change">
@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-	import Tree from '@/ui-kit/tree/tree.vue'
+	//import Tree from '@/ui-kit/tree/tree.vue'
 	// import Collapse from './ui-kit/collapse/collapse.vue'
 	// import CollapseItem from './ui-kit/collapse/collapse-item.vue'
 	import UiButton from '@/ui-kit/button/UiButton.vue'
