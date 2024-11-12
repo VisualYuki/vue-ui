@@ -109,7 +109,7 @@ export const states = {
 }
 
 export const Group = {
-	render: (args) => ({
+	render: (args: any) => ({
 		components: {UiButton, UiButtonGroup},
 		setup() {
 			return {args}
