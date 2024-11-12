@@ -1,10 +1,10 @@
-@use './config';
-@use 'sass:map';
+@use './config' as *;
 @use './functions.scss' as *;
+@use 'sass:map';
 @use 'sass:meta';
 
 @mixin b($name) {
-	$B: config.$namespace + config.$common-separator + $name;
+	$B: $namespace + $common-separator + $name;
 
 	.#{$B} {
 		@content;
@@ -12,9 +12,15 @@
 }
 
 @mixin m($modifier) {
-	$selector: '&' + config.$modifier-separator + $modifier;
+	$selector: '&' + $modifier-separator + $modifier;
 
 	@at-root #{$selector} {
+		@content;
+	}
+}
+
+@mixin when($state) {
+	@at-root &.#{$state-prefix + $state} {
 		@content;
 	}
 }

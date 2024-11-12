@@ -1,18 +1,14 @@
 <template>
 	<component
 		:is="props.tag"
-		ref="button"
-		class="ui-button"
 		:class="[
-			`ui-button_${props.type}`,
-			{
-				//[`btn-${props.size}`]: props.size !== 'md',
-				//active: props.active || pressedValue,
-				//'rounded-pill': props.pill,
-				//'rounded-0': props.squared,
-				'ui-button_plain': props.plain
-				//disabled: _computed.disabled.value
-			}
+			ns.m(_computed.type.value),
+			ns.is('disabled', _computed.disabled.value),
+			ns.is('circle', props.circle),
+			ns.is('loading', props.loading),
+			ns.is('round', props.round),
+			ns.m(_computed.size.value),
+			ns.b()
 		]"
 		:disabled="_computed.disabled.value"
 		:type="props.htmlType"
@@ -20,23 +16,33 @@
 	>
 		<template v-if="props.loading">
 			<slot name="loading">
-				<div class="spinner-slot">
-					<UiSpinner></UiSpinner>
-				</div>
+				<UiIcon margin-right>
+					<LoadingIcon class="rotate360-animation"></LoadingIcon>
+				</UiIcon>
 			</slot>
 		</template>
-		<slot name="default"></slot>
-		<slot name="loading"></slot>
+		<template v-else>
+			<UiIcon v-if="$slots.icon || props.icon" margin-right>
+				<component v-if="props.icon" :is="props.icon" />
+				<slot v-else name="icon"></slot>
+			</UiIcon>
+		</template>
+		<div class="default-slot" v-if="$slots.default">
+			<slot name="default"></slot>
+		</div>
 	</component>
 </template>
 
 <script lang="ts" setup>
 	import {type ColorType} from '@/types/unions'
-	import {type PropType, useTemplateRef} from 'vue'
-	import UiSpinner from '../spinner/Spinner.vue'
+	import {inject, type PropType, type Component} from 'vue'
 	import type {Size} from '@/types/size'
 	import type {ButtonType} from '@/types/button'
 	import {computed} from 'vue'
+	import {buttonGroupKey} from './constants'
+	import {useNamespace} from '@/utils/use-namespace'
+	import UiIcon from '../icon/UiIcon.vue'
+	import LoadingIcon from '../icons/LoadingIcon.vue'
 
 	defineOptions({
 		name: 'UiButton'
@@ -47,7 +53,7 @@
 			type: String as PropType<keyof HTMLElementTagNameMap | 'RouterLink'>,
 			default: 'button'
 		},
-		plain: {
+		circle: {
 			type: Boolean,
 			default: false
 		},
@@ -57,7 +63,7 @@
 		},
 		size: {
 			type: String as PropType<Size>,
-			default: 'md'
+			default: ''
 		},
 		disabled: {
 			type: Boolean,
@@ -67,21 +73,17 @@
 			type: String as PropType<ButtonType>,
 			default: 'button'
 		},
-		active: {
-			type: Boolean,
-			default: false
-		},
-		pill: {
-			type: Boolean,
-			default: false
-		},
-		squared: {
-			type: Boolean,
-			default: false
-		},
 		loading: {
 			type: Boolean,
 			default: false
+		},
+		round: {
+			type: Boolean,
+			default: false
+		},
+		icon: {
+			type: [Object, String] as PropType<Component | String>,
+			default: ''
 		}
 	})
 
@@ -89,54 +91,34 @@
 		click: [e: MouseEvent]
 	}>()
 
-	const pressedValue = defineModel<undefined | boolean>('pressed', {default: undefined})
-
-	const state = {
-		buttonRef: useTemplateRef('button')
-	}
+	const buttonGroupInject = inject(buttonGroupKey, undefined)
+	const ns = useNamespace('button')
 
 	const _computed = {
-		isToggle: computed(() => (typeof pressedValue.value === 'boolean' ? true : false)),
+		type: computed(() => props.type || buttonGroupInject?.type || ''),
+		size: computed(() => {
+			if (props.size === 'default') {
+				return ''
+			}
+
+			return props.size || buttonGroupInject?.size || ''
+		}),
 		disabled: computed(() => props.disabled || props.loading)
 	}
 
 	const methods = {
 		onClickEvent(e: MouseEvent) {
-			if (_computed.disabled) {
+			if (_computed.disabled.value || props.loading) {
 				e.preventDefault()
 				e.stopPropagation()
 				return
 			}
 
-			if (_computed.isToggle.value) {
-				pressedValue.value = !pressedValue.value
-			}
-
 			emits('click', e)
 		}
 	}
-
-	defineExpose({
-		ref: state.buttonRef
-	})
 </script>
 
 <style lang="scss" scoped>
 	@use './button.scss';
-
-	// .spinner-slot {
-	// 	position: absolute;
-	// 	left: 50%;
-	// 	top: 50%;
-	// 	transform: translate(-50%, -50%);
-	// }
-
-	// .btn {
-	// 	position: relative;
-
-	// 	&.disabled {
-	// 		pointer-events: all;
-	// 		cursor: not-allowed;
-	// 	}
-	// }
 </style>

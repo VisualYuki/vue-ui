@@ -1,39 +1,116 @@
 import {mount} from '@vue/test-utils'
-
 import {expect, it, describe} from 'vitest'
-import ButtonGroup from './button-group.vue'
+import UiButtonGroup from './UiButtonGroup.vue'
+import UiButton from './UiButton.vue'
+import {h} from 'vue'
+import {useNamespace} from '@/utils/use-namespace'
 
-describe('', () => {
+let buttonNs = useNamespace('button')
+let buttoGroupnNs = useNamespace('button-group')
+
+describe('button-group', () => {
 	it('default', () => {
-		const wrapper = mount(ButtonGroup, {})
-
-		expect(wrapper.classes()).toContain('btn-group')
-		expect(wrapper.classes()).not.toContain('btn-group-vertical')
-		expect(wrapper.classes()).not.toContain('btn-group-md')
-		expect(wrapper.element.tagName).toBe('DIV')
-	})
-
-	it('props', () => {
-		const wrapper = mount(ButtonGroup, {
+		const wrapper = mount(UiButtonGroup, {
 			props: {
-				vertical: true,
-				tag: 'span',
-				size: 'lg'
+				type: 'danger',
+				size: 'large',
+				tag: 'span'
+			},
+			slots: {
+				default: [
+					h(
+						UiButton,
+						{
+							type: 'primary',
+							size: 'small'
+						},
+						{
+							default: () => 'button 1'
+						}
+					),
+					h(
+						UiButton,
+						{},
+						{
+							default: () => 'button 2'
+						}
+					),
+					h(
+						UiButton,
+						{
+							size: 'default'
+						},
+						{
+							default: () => 'button 3'
+						}
+					)
+				]
 			}
 		})
 
-		expect(wrapper.classes()).toContain('btn-group-vertical')
-		expect(wrapper.classes()).not.toContain('btn-group')
+		let buttons = wrapper.findAllComponents(UiButton)
+
 		expect(wrapper.element.tagName).toBe('SPAN')
+
+		expect(buttons[0].classes()).toContain(buttonNs.m('primary'))
+		expect(buttons[0].classes()).toContain(buttonNs.m('small'))
+
+		expect(buttons[1].classes()).toContain(buttonNs.m('danger'))
+		expect(buttons[1].classes()).toContain(buttonNs.m('large'))
+
+		expect(buttons[2].classes()).not.toContain(buttonNs.m('large'))
+
+		wrapper.setProps({type: 'info'}).then(() => {
+			expect(buttons[0].classes()).toContain(buttonNs.m('primary'))
+			expect(buttons[1].classes()).toContain(buttonNs.m('info'))
+		})
 	})
 
-	it('render default slot', () => {
-		const wrapper = mount(ButtonGroup, {
+	it('prop horizontal', async () => {
+		const wrapper = mount(UiButtonGroup, {
+			props: {},
 			slots: {
-				default: 'text'
+				default: [
+					h(
+						UiButton,
+						{
+							type: 'primary',
+							size: 'small'
+						},
+						{
+							default: () => 'button 1'
+						}
+					),
+					h(
+						UiButton,
+						{
+							type: 'primary',
+							size: 'small'
+						},
+						{
+							default: () => 'button 2'
+						}
+					),
+					h(
+						UiButton,
+						{
+							type: 'primary',
+							size: 'small'
+						},
+						{
+							default: () => 'button 3'
+						}
+					)
+				]
 			}
 		})
 
-		expect(wrapper.text()).toBe('text')
+		expect(wrapper.classes()).toContain(buttoGroupnNs.m('horizontal'))
+		expect(wrapper.classes()).not.toContain(buttoGroupnNs.m('vertical'))
+
+		await wrapper.setProps({vertical: true})
+
+		expect(wrapper.classes()).toContain(buttoGroupnNs.m('vertical'))
+		expect(wrapper.classes()).not.toContain(buttoGroupnNs.m('horizontal'))
 	})
 })

@@ -1,130 +1,89 @@
-import {fn} from '@storybook/test'
 import type {Meta, StoryObj} from '@storybook/vue3'
+import '/src/theme/scss/index.scss'
+import UiButton from '@/ui-kit/button/UiButton.vue'
+import UiButtonGroup from '@/ui-kit/button/UiButtonGroup.vue'
+import UiIcon from '@/ui-kit/icon/UiIcon.vue'
+import LoadingIcon from '@/ui-kit/icons/LoadingIcon.vue'
+import CloseIcon from '@/ui-kit/icons/CloseIcon.vue'
+import {Colors} from '@/types/unions'
+import {Sizes} from '@/types/size'
 
-import Button from '@/ui-kit/button/button.vue'
-import ButtonGroup from '@/ui-kit/button/button-group.vue'
-
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-	title: 'Button',
-	component: Button,
-	tags: ['autodocs']
-} satisfies Meta<typeof Button>
+	title: 'UiButton',
+	component: UiButton,
+	tags: ['!autodocs']
+} satisfies Meta<typeof UiButton>
 
 export default meta
 type Story = StoryObj<typeof meta>
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/api/csf
- * to learn how to use render functions.
- */
 
 export const Default: Story = {
 	render: (args) => ({
-		components: {Button},
+		components: {UiButton},
 		setup() {
 			return {args}
 		},
 		template: `
-			<Button v-bind='args'> default</Button>
+			<UiButton v-bind='args'> default</UiButton>
 		`
 	}),
 	argTypes: {
-		size: {control: 'select', options: ['sm', 'md', 'lg']},
-		variant: {
+		size: {control: 'select', options: Sizes},
+		type: {
 			control: 'select',
-			options: [
-				'primary',
-				'secondary',
-				'success',
-				'danger',
-				'warning',
-				'info',
-				'light',
-				'dark',
-				'outline-primary',
-				'outline-secondary',
-				'outline-success',
-				'outline-danger',
-				'outline-warning',
-				'outline-info',
-				'outline-light',
-				'outline-dark',
-				'link'
-			]
+			options: Colors
 		},
 		disabled: {
 			control: 'boolean'
 		},
-		active: {
-			control: 'boolean'
-		},
-		pill: {
-			control: 'boolean'
-		},
-		squared: {
-			control: 'boolean'
-		},
 		loading: {
+			control: 'boolean'
+		},
+		circle: {
 			control: 'boolean'
 		}
 	},
 	args: {
-		variant: 'primary',
-		size: 'md',
+		type: 'primary',
+		size: 'default',
 		disabled: false,
-		active: false,
-		pill: false,
-		squared: false,
 		loading: false,
 		tag: 'button',
-		htmlType: 'button'
+		htmlType: 'button',
+		circle: false
 	}
 }
 
-export const Variant: Story = {
+export const Types: Story = {
 	render: (args) => ({
-		components: {Button},
+		components: {UiButton},
 		setup() {
 			return {args}
 		},
 		template: `
 			<div class="helper-grid">
-				<Button variant='primary'> button content </Button>
-				<Button variant='secondary' > button content </Button>
-				<Button variant='success'> button content </Button>
-				<Button variant='danger'> button content </Button>
-				<Button variant='warning'> button content </Button>
-				<Button variant='info'> button content </Button>
-				<Button variant='light'> button content </Button>
-				<Button variant='dark'> button content </Button>
-				<Button variant='secondary'> button content </Button>
-
-				<Button variant='outline-primary'> button content </Button>
-				<Button variant='outline-secondary'> button content </Button>
-				<Button variant='outline-success'> button content </Button>
-				<Button variant='outline-danger'> button content </Button>
-				<Button variant='outline-warning'> button content </Button>
-				<Button variant='outline-info'> button content </Button>
-				<Button variant='outline-dark'> button content </Button>
-				<Button variant='outline-light'> button content </Button>
-				<Button variant='link'> button content </Button>
+				<UiButton> default </UiButton>
+				<UiButton type='primary'> primary </UiButton>
+				<UiButton type='success'> success </UiButton>
+				<UiButton type='danger'> danger </UiButton>
+				<UiButton type='warning'> warning </UiButton>
+				<UiButton type='info'> button info </UiButton>
 			</div>
 		`
 	})
 }
 
-export const Sizes: Story = {
+export const _Sizes: Story = {
 	render: (args) => ({
-		components: {Button},
+		components: {UiButton},
 		setup() {
 			return {args}
 		},
 		template: `
 			<div class="helper-grid">
-				<Button size="sm"> sm size </Button>
-				<Button size="md"> md size </Button>
-				<Button size="lg"> lg size </Button>
+				<UiButton size="small"> small size </UiButton>
+				<UiButton> default size </UiButton>
+				<UiButton size="large"> large size </UiButton>
 			</div>
 		`
 	})
@@ -132,31 +91,55 @@ export const Sizes: Story = {
 
 export const states = {
 	render: () => ({
-		components: {Button},
+		components: {UiButton, UiIcon, CloseIcon},
 		template: `
 			<div class="helper-grid">
-				<Button disabled> disabled </Button>
-				<Button pill> pill </Button>
-				<Button squared> squared </Button>
-				<Button loading> loading </Button>
-				<Button active> active </Button>
-				<Button tag='span'> tag span </Button>
+				<UiButton disabled> disabled </UiButton>
+				<UiButton circle>
+					<UiIcon>
+						<CloseIcon> </CloseIcon>
+					</UiIcon>
+				</UiButton>
+				<UiButton loading> loading </UiButton>
+				<UiButton tag='span'> tag span </UiButton>
+				<UiButton round> round </UiButton>
 			</div>
 		`
 	})
 }
 
-export const group = {
-	render: () => ({
-		components: {Button, ButtonGroup},
+export const Group = {
+	render: (args) => ({
+		components: {UiButton, UiButtonGroup},
+		setup() {
+			return {args}
+		},
 		template: `
 			<div class="helper-grid">
-				<ButtonGroup disabled>
-					<Button> first </Button>
-					<Button> third </Button>
-					<Button> squared </Button>
-				</ButtonGroup>
+				<UiButtonGroup v-bind='args'>
+					<UiButton> 1 </UiButton>
+					<UiButton> 2 </UiButton>
+					<UiButton> 3 </UiButton>
+				</UiButtonGroup>
+			</div>
+			<div class="helper-grid">
+				<UiButtonGroup v-bind='args' :vertical="true">
+					<UiButton> 1 </UiButton>
+					<UiButton> 2 </UiButton>
+					<UiButton> 3 </UiButton>
+				</UiButtonGroup>
 			</div>
 		`
-	})
+	}),
+	argTypes: {
+		size: {control: 'select', options: Sizes},
+		type: {
+			control: 'select',
+			options: Colors
+		}
+	},
+	args: {
+		type: 'primary',
+		size: 'default'
+	}
 }

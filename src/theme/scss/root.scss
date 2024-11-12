@@ -31,6 +31,7 @@
 
 	@include set-local-css-vars('border-color', $border-color);
 	@include set-local-css-vars('fill-color', $fill-color);
+	@include set-local-css-vars('disabled', $disabled);
 
 	@include set-css-var('border', #{getCssVar('border-width') getCssVar('border-style') getCssVar('border-color')});
 }

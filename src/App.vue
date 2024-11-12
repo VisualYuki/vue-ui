@@ -18,18 +18,38 @@
 			</collapse-item>
 		</collapse> -->
 
-	<MyButton>default button</MyButton>
-	<MyButton plain>plain</MyButton>
-	<MyButton type="primary">primary</MyButton>
-	<MyButton type="primary" plain>primary</MyButton>
+	<UiButton @click="console.log('click')" loading>default button</UiButton>
+	<UiButton type="primary" size="default" :icon="CircleCloseIcon">primary</UiButton>
+	<UiButton type="danger">danger</UiButton>
+	<UiButton type="danger" size="small" loading>danger small</UiButton>
+	<UiButton type="primary" circle disabled>primary circle</UiButton>
+	<UiButtonGroup type="success">
+		<UiButton>primary</UiButton>
+		<UiButton>danger</UiButton>
+		<UiButton>danger</UiButton>
+	</UiButtonGroup>
+	<br />
+	<UiIcon color="blue" size="30px" class="loading-animation">
+		<LoadingIcon></LoadingIcon>
+	</UiIcon>
 </template>
 
 <script lang="ts" setup>
 	import Tree from '@/ui-kit/tree/tree.vue'
 	import Collapse from './ui-kit/collapse/collapse.vue'
 	import CollapseItem from './ui-kit/collapse/collapse-item.vue'
-	import MyButton from '@/ui-kit/button/button.vue'
+	import UiButton from '@/ui-kit/button/UiButton.vue'
+	import UiButtonGroup from '@/ui-kit/button/UiButtonGroup.vue'
 	import {ref, watch} from 'vue'
+	import UiIcon from './ui-kit/icon/UiIcon.vue'
+	import LoadingIcon from './ui-kit/icons/LoadingIcon.vue'
+	import CircleCloseIcon from './ui-kit/icons/CircleCloseIcon.vue'
+
+	const test = ref('danger')
+
+	setTimeout(() => {
+		test.value = 'info'
+	}, 5000)
 
 	const activeNames = ref(['2'])
 

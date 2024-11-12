@@ -1,1 +1,2 @@
-export type ColorType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info'
+export const Colors = ['primary', 'success', 'danger', 'warning', 'info'] as const
+export type ColorType = (typeof Colors)[number]

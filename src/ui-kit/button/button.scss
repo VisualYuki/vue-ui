@@ -88,12 +88,6 @@
 			@include set-css-var(('button', $type, $typeColor), $list);
 		}
 	}
-
-	// &.is-plain,
-	// &.is-text,
-	// &.is-link {
-	//   @include button-plain($type);
-	// }
 }
 
 @include b(button) {
@@ -113,10 +107,10 @@
 	border-color: getCssVar(('button', 'border', 'color'));
 	outline: none;
 
-	box-shadow:
-		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
-		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+	// box-shadow:
+	// 	0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+	// 	0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+	// 	0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 	&:hover {
 		color: getCssVar(('button', 'hover', 'text-color'));
@@ -151,16 +145,26 @@
 		}
 	}
 
-	@include m('plain') {
-		@include set-css-var(('button', 'hover', 'text', 'color'), ('color', 'primary'));
-		@include set-css-var(('button', 'hover', 'bg', 'color'), ('fill-color', 'blank'));
-		@include set-css-var(('button', 'hover', 'border', 'color'), ('color', 'primary'));
-	}
-
 	@each $type in $color-types {
 		@include m($type) {
 			@include button-variant($type);
 		}
+	}
+
+	@include when('disabled') {
+		background-color: getCssVar(('button', 'disabled', 'bg-color'));
+		color: getCssVar(('button', 'disabled', 'text-color'));
+		border-color: getCssVar(('button', 'disabled', 'border-color'));
+		cursor: not-allowed;
+	}
+
+	@include when(round) {
+		border-radius: getCssVar(('border', 'radius', 'round'));
+	}
+
+	@include when('circle') {
+		border-radius: getCssVar(('border', 'radius', 'circle'));
+		padding: 8px;
 	}
 
 	// > span {
@@ -168,31 +172,7 @@
 	// 	align-items: center;
 	// }
 
-	// & + & {
-	// 	margin-left: 12px;
-	// }
-
-	// &_lg {
-	// 	padding: 8px 22px;
-	// }
-
-	// &_md {
-	// 	padding: 8px 16px;
-	// }
-
-	// &_sm {
-	// 	padding: 8px 10px;
-	// }
-
-	@each $item in $color-types {
+	& + & {
+		margin-left: 12px;
 	}
-
-	&_primary {
-		@include b(button_contained) {
-			background: rgb(25, 118, 210);
-		}
-	}
-
-	// &_#{$name} {
-	// }
 }

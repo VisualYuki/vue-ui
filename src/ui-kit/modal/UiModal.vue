@@ -46,7 +46,7 @@
 	import {computed} from 'vue'
 	import {onKeyStroke, useFocus} from '@vueuse/core'
 	import {ref, watch} from 'vue'
-	import Button from '../button/button.vue'
+	import Button from '../button/UiButton.vue'
 
 	const props = defineProps({
 		teleportTo: {

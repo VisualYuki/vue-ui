@@ -1,7 +1,3 @@
-export interface BaseSize {
-	sm: unknown
-	md: unknown
-	lg: unknown
-}
+export const Sizes = ['small', 'default', 'large'] as const
 
-export type Size = keyof BaseSize
+export type Size = (typeof Sizes)[number]

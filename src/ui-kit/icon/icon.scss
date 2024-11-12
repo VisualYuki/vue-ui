@@ -1,0 +1,27 @@
+@use '/src/theme/scss/utils' as *;
+@use '/src/theme/scss/override-vars' as *;
+@use 'sass:map';
+
+@include b('icon') {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 1em;
+	height: 1em;
+
+	font-size: inherit;
+	color: currentColor;
+
+	svg {
+		width: inherit;
+		height: inherit;
+	}
+
+	@include m('margin-left') {
+		margin-left: 5px;
+	}
+
+	@include m('margin-right') {
+		margin-right: 5px;
+	}
+}

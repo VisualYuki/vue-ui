@@ -14,7 +14,10 @@ $button: map.merge(
 		'hover-border-color': getCssVar(('color', 'primary', 'light', '7')),
 		'active-text-color': getCssVar(('button', 'hover', 'text', 'color')),
 		'active-border-color': getCssVar(('color', 'primary')),
-		'active-bg-color': getCssVar(('button', 'hover', 'bg', 'color'))
+		'active-bg-color': getCssVar(('button', 'hover', 'bg', 'color')),
+		'disabled-text-color': getCssVar(('disabled', 'text', 'color')),
+		'disabled-bg-color': getCssVar(('fill', 'color', 'blank')),
+		'disabled-border-color': getCssVar(('border', 'color', 'light'))
 	),
 	$button
 );
