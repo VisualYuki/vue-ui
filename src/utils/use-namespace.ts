@@ -28,6 +28,10 @@ export function useNamespace(blockName: string) {
 		return element ? bem(blockName, element, '') : ''
 	}
 
+	function em(element: string, modifier: string) {
+		return bem(blockName, element, modifier)
+	}
+
 	function b() {
 		return bem(blockName, '', '')
 	}
@@ -41,7 +45,8 @@ export function useNamespace(blockName: string) {
 		bem,
 		m,
 		b,
-		e
+		e,
+		em
 		//component
 	}
 }

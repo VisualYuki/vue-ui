@@ -123,7 +123,15 @@ export const Group = {
 				</UiButtonGroup>
 			</div>
 			<div class="helper-grid">
-				<UiButtonGroup v-bind='args' :vertical="true">
+				<UiButtonGroup v-bind='args' direction="vertical">
+					<UiButton> 1 </UiButton>
+					<UiButton> 2 </UiButton>
+					<UiButton> 3 </UiButton>
+				</UiButtonGroup>
+			</div>
+
+			<div class="helper-grid">
+				<UiButtonGroup v-bind='args' direction="vertical" type=''>
 					<UiButton> 1 </UiButton>
 					<UiButton> 2 </UiButton>
 					<UiButton> 3 </UiButton>

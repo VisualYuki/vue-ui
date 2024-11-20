@@ -17,8 +17,15 @@
 				<div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
 			</collapse-item>
 		</collapse> -->
-
-	<UiButton @click="console.log('click')" loading>default button</UiButton>
+	<UiAlert type="primary">primary alert</UiAlert>
+	<UiAlert>primary alert</UiAlert>
+	<UiAlert center>center</UiAlert>
+	<UiAlert show-icon>show icon</UiAlert>
+	<UiAlert show-icon type="danger">show icon</UiAlert>
+	<UiAlert show-icon type="warning">show icon</UiAlert>
+	<UiAlert show-icon type="success">show icon</UiAlert>
+	<UiAlert show-icon title="title" description="description1">1</UiAlert>
+	<!-- <UiButton @click="console.log('click')" loading>default button</UiButton>
 	<UiButton type="primary" size="default" :icon="CircleCloseIcon">primary</UiButton>
 	<UiButton type="danger">danger</UiButton>
 	<UiButton type="danger" size="small" loading>danger small</UiButton>
@@ -31,7 +38,7 @@
 	<br />
 	<UiIcon color="blue" size="30px" class="loading-animation">
 		<LoadingIcon></LoadingIcon>
-	</UiIcon>
+	</UiIcon> -->
 </template>
 
 <script lang="ts" setup>
@@ -40,10 +47,12 @@
 	// import CollapseItem from './ui-kit/collapse/collapse-item.vue'
 	import UiButton from '@/ui-kit/button/UiButton.vue'
 	import UiButtonGroup from '@/ui-kit/button/UiButtonGroup.vue'
-	import {ref} from 'vue'
+	import {computed, ref} from 'vue'
 	import UiIcon from './ui-kit/icon/UiIcon.vue'
 	import LoadingIcon from './ui-kit/icons/LoadingIcon.vue'
 	import CircleCloseIcon from './ui-kit/icons/CircleCloseIcon.vue'
+	import {} from 'vue'
+	import UiAlert from './ui-kit/alert/UiAlert.vue'
 
 	const test = ref('danger')
 

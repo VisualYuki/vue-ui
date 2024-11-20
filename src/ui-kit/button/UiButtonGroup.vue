@@ -1,5 +1,5 @@
 <template>
-	<component :is="props.tag" :class="[ns.b(), {[ns.m('horizontal')]: !props.vertical, [ns.m('vertical')]: props.vertical}]">
+	<component :is="props.tag" :class="[ns.b(), ns.m(props.direction)]">
 		<slot></slot>
 	</component>
 </template>
@@ -24,9 +24,9 @@
 			type: String as PropType<ColorType>,
 			default: ''
 		},
-		vertical: {
-			type: Boolean,
-			default: false
+		direction: {
+			type: String as PropType<'horizontal' | 'vertical'>,
+			default: 'horizontal'
 		}
 	})
 

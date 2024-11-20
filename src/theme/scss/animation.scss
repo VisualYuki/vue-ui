@@ -10,3 +10,7 @@
 .rotate360-animation {
 	animation: rotation360 2s infinite linear;
 }
+
+.default-transition {
+	transition: all 0.2s linear;
+}

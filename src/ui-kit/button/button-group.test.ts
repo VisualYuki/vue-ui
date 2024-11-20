@@ -108,7 +108,7 @@ describe('button-group', () => {
 		expect(wrapper.classes()).toContain(buttoGroupnNs.m('horizontal'))
 		expect(wrapper.classes()).not.toContain(buttoGroupnNs.m('vertical'))
 
-		await wrapper.setProps({vertical: true})
+		await wrapper.setProps({direction: 'vertical'})
 
 		expect(wrapper.classes()).toContain(buttoGroupnNs.m('vertical'))
 		expect(wrapper.classes()).not.toContain(buttoGroupnNs.m('horizontal'))

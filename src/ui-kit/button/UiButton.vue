@@ -119,6 +119,6 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	@use './button.scss';
 </style>

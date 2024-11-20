@@ -4,11 +4,15 @@
 	display: inline-flex;
 	align-items: stretch;
 
-	& .#{$namespace}-button + .#{$namespace}-button {
+	.#{$namespace}-button + .#{$namespace}-button {
 		margin: 0;
 	}
 
-	&_horizontal {
+	@include m('horizontal') {
+		.#{$namespace}-button + .#{$namespace}-button {
+			margin-left: 1px;
+		}
+
 		& > :first-child:not(:last-child) {
 			border-top-right-radius: 0;
 			border-bottom-right-radius: 0;
@@ -22,13 +26,9 @@
 		& > *:not(:last-child):not(:first-child) {
 			border-radius: 0;
 		}
-
-		& > * + * {
-			margin-left: 1px;
-		}
 	}
 
-	&_vertical {
+	@include m('vertical') {
 		flex-direction: column;
 
 		& > :first-child:not(:last-child) {

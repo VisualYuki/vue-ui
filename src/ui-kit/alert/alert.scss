@@ -1,0 +1,70 @@
+@use '/src/theme/scss/utils/index.scss' as *;
+@use '/src/theme/scss/override-vars' as *;
+@use 'sass:map';
+
+@include b('alert') {
+	position: relative;
+	transition: all 0.5s;
+	overflow: hidden;
+
+	.inner-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+
+		padding: 10px 16px;
+		border-radius: map.get($border-radius, 'small');
+	}
+
+	.content {
+		display: flex;
+		justify-content: start;
+		align-items: center;
+		flex-grow: 1;
+	}
+
+	@include m('center') {
+		.content {
+			justify-content: center;
+		}
+	}
+
+	@include e('close') {
+		cursor: pointer;
+		color: getCssVar(('text', 'color', 'placeholder'));
+
+		&:hover {
+			color: getCssVar(('color', 'danger'));
+		}
+	}
+
+	@include e('title') {
+		font-size: map.get($font-size, 'base');
+
+		@include m('with-description') {
+			font-size: map.get($font-size, 'medium');
+		}
+	}
+
+	@include e('icon') {
+		margin-right: 6px;
+
+		@include m('big') {
+			margin-right: 12px;
+			font-size: 25px;
+		}
+	}
+
+	@include e('description') {
+		padding-top: 4px;
+		margin-bottom: 4px;
+		font-size: map.get($font-size, 'base');
+	}
+
+	@each $type in $color-types {
+		@include m($type) {
+			background-color: getCssVar(('color', $type, 'light', '9'));
+			color: getCssVar(('color', $type));
+		}
+	}
+}

@@ -1,3 +1,6 @@
-// body {
-// 	font-family: 'SF Pro Text';
-// }
+@use 'sass:map';
+@use './override-vars/override-vars' as *;
+
+body {
+	font-family: #{map.get($font-family, '')};
+}

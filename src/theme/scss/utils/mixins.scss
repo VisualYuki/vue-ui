@@ -19,6 +19,14 @@
 	}
 }
 
+@mixin e($modifier) {
+	$selector: '&' + $element-separator + $modifier;
+
+	@at-root #{$selector} {
+		@content;
+	}
+}
+
 @mixin when($state) {
 	@at-root &.#{$state-prefix + $state} {
 		@content;
