@@ -100,7 +100,13 @@ export const states = {
 						<CloseIcon> </CloseIcon>
 					</UiIcon>
 				</UiButton>
+				<UiButton transparent>
+					<UiIcon>
+						<CloseIcon> </CloseIcon>
+					</UiIcon>
+				</UiButton>
 				<UiButton loading> loading </UiButton>
+
 				<UiButton tag='span'> tag span </UiButton>
 				<UiButton round> round </UiButton>
 			</div>

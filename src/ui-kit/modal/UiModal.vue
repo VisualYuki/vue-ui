@@ -1,44 +1,43 @@
 <template>
 	<CustomTeleport :to="props.teleportTo" :disabled="props.teleportDisabled">
 		<Transition
-			v-bind="{enterActiveClass: 'fade', enterToClass: 'show', leaveFromClass: 'show', leaveActiveClass: 'fade'}"
+			v-bind="{enterActiveClass: 'fade-out', enterToClass: 'fade-in', leaveActiveClass: 'fade-out'}"
 			@before-enter="methods.onBeforeEnter"
-			@after-enter="methods.onAfterEnter"
 			@enter="methods.onEnter"
-			@leave="methods.onLeave"
+			@after-enter="methods.onAfterEnter"
+			@before-leave="methods.onBeforeLeave"
 			@after-leave="methods.onAfterLeave"
 		>
-			<div v-show="model" :id="_computed.id.value" ref="element" v-bind="$attrs" class="modal" role="dialog" :class="[props.modalClasses]">
-				<div
-					v-if="state.ifModalContent"
-					class="modal-dialog"
-					style="z-index: 1060; position: relative"
-					:class="_computed.modalDialogClasses.value"
-				>
-					<div class="modal-content">
-						<Button>click</Button>
-						<div class="modal-header">
-							<slot name="header">
-								<button ref="cancelBtn" class="btn btn-primary">close</button>
-							</slot>
-						</div>
-						<div class="modal-body">
-							<slot name="default"></slot>
-						</div>
-						<div class="model-footer">
-							<slot name="footer"></slot>
+			<UiOverlay v-show="model" @click="methods.closeModal('backdrop')">
+				<div :id="_computed.id.value" ref="element" v-bind="$attrs" role="dialog" :class="[ns.b(), props.modalClasses]">
+					<div v-if="state.ifModalContent" style="z-index: 1060" :class="[ns.e('wrapper'), _computed.modalDialogClasses.value]">
+						<div :class="ns.e('content')">
+							<div :class="ns.e('header')">
+								<div :class="ns.e('header-slot')">
+									<slot name="header"></slot>
+								</div>
+								<UiButton @click="methods.closeModal('close')" size="default" transparent>
+									<UiIcon>
+										<CloseIcon></CloseIcon>
+									</UiIcon>
+								</UiButton>
+							</div>
+							<div :class="ns.e('body')">
+								<slot name="default"></slot>
+							</div>
+							<div :class="ns.e('footer')">
+								<slot name="footer"></slot>
+							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="modal-backdrop fade show" @click="methods.hideModal('backdrop')"></div>
-			</div>
+			</UiOverlay>
 		</Transition>
 	</CustomTeleport>
 </template>
 
 <script lang="ts" setup>
-	import {useId} from 'vue'
+	import {nextTick, useId} from 'vue'
 	import CustomTeleport from '@/ui-kit/custom-teleport/CustomTeleport.vue'
 	import type {PropType} from 'vue'
 	import {useFocusTrap} from '@vueuse/integrations/useFocusTrap'
@@ -46,7 +45,11 @@
 	import {computed} from 'vue'
 	import {onKeyStroke, useFocus} from '@vueuse/core'
 	import {ref, watch} from 'vue'
-	import Button from '../button/UiButton.vue'
+	import UiOverlay from '../overlay/UiOverlay'
+	import {useNamespace} from '@/utils/use-namespace'
+	import UiButton from '../button/UiButton.vue'
+	import UiIcon from '../icon/UiIcon.vue'
+	import CloseIcon from '../icons/CloseIcon.vue'
 
 	const props = defineProps({
 		teleportTo: {
@@ -110,14 +113,15 @@
 			default: false
 		}
 	})
-	const emit = defineEmits(['update:modelValue', 'hide-prevented', 'backdrop', 'esc', 'beforeShow', 'cancel', 'close', 'hidden'])
+	const emit = defineEmits(['update:modelValue', 'hide-prevented', 'backdrop', 'esc', 'start-open', 'opened', 'closed', 'start-close'])
+
+	const ns = useNamespace('modal')
 
 	const state = reactive({
 		isActive: false,
 		ifModalContent: true
 	})
 	const element = ref()
-	const cancelBtn = ref()
 	const model = defineModel({
 		type: Boolean,
 		default: false
@@ -126,26 +130,28 @@
 	const {activate, deactivate} = useFocusTrap(element)
 
 	const methods = {
+		onEnter() {},
 		onBeforeEnter() {
-			emit('beforeShow')
-			methods.showModal()
-			console.log('beforeShow')
+			emit('start-open')
 		},
 		onAfterEnter() {
-			state.isActive = true
-
-			activate()
+			emit('opened')
+			methods.openModal()
 		},
-		onEnter() {},
-		onLeave() {},
+		onBeforeLeave() {
+			emit('start-close')
+		},
 		onAfterLeave() {
-			methods.hideModal('hidden')
+			emit('closed')
+			methods.closeModal('hidden')
 		},
-		showModal() {
+		openModal() {
+			state.isActive = true
 			model.value = true
 			state.ifModalContent = true
+			//activate()
 		},
-		hideModal(trigger: 'ok' | 'backdrop' | 'esc' | 'close' | 'cancel' | 'hidden' | '' = '') {
+		closeModal(trigger: 'ok' | 'backdrop' | 'esc' | 'close' | 'hidden' | '' = '') {
 			if ((trigger === 'backdrop' && !props.closeOnBackdrop) || (trigger === 'esc' && !props.closeOnEscape)) {
 				emit('hide-prevented')
 				return
@@ -186,28 +192,27 @@
 		onKeyStroke(
 			'Escape',
 			() => {
-				methods.hideModal('esc')
+				methods.closeModal('esc')
 			},
 			{target: element}
 		)
 
-		useFocus(element, {
-			initialValue: model.value && props.autofocus === true
-		})
+		// useFocus(element, {
+		// 	initialValue: model.value && props.autofocus === true
+		// })
 	}
 
 	setup()
 
 	watch(model, (newValue, oldValue) => {
-		if (newValue === oldValue) {
-			return
-		}
-
-		if (newValue) {
-			methods.showModal()
-		} else {
-			methods.hideModal()
-		}
+		// if (newValue === oldValue) {
+		// 	return
+		// }
+		// if (newValue) {
+		// 	methods.openModal()
+		// } else {
+		// 	methods.closeModal()
+		// }
 	})
 
 	// const sharedSlots = computed(() => {
@@ -220,14 +225,12 @@
 	// })
 
 	defineExpose({
-		hide: methods.hideModal,
-		id: _computed.id,
-		show: methods
+		close: methods.closeModal,
+		open: methods.openModal,
+		id: _computed.id
 	})
 </script>
 
 <style lang="scss" scoped>
-	.modal {
-		display: block;
-	}
+	@use './modal.scss';
 </style>

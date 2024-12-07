@@ -17,6 +17,7 @@
 	@include set-local-css-vars('font-size', $font-size);
 	@include set-local-css-vars('text-color', $text-color);
 	@include set-local-css-vars('border-radius', $border-radius);
+	@include set-local-css-vars('overlay-color', $overlay-color);
 
 	@each $i in (1, 2, 3, 4, 5, 6, 7, 8, 9) {
 		@include set-css-var(('color', 'black', $i), color.mix($color-white, $color-black, math.percentage(math.div($i, 10))));

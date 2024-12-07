@@ -7,6 +7,7 @@
 			ns.is('circle', props.circle),
 			ns.is('loading', props.loading),
 			ns.is('round', props.round),
+			ns.is('transparent', props.transparent),
 			ns.m(_computed.size.value),
 			ns.b()
 		]"
@@ -78,6 +79,10 @@
 			default: false
 		},
 		round: {
+			type: Boolean,
+			default: false
+		},
+		transparent: {
 			type: Boolean,
 			default: false
 		},

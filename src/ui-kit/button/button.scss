@@ -107,10 +107,17 @@
 	border-color: getCssVar(('button', 'border', 'color'));
 	outline: none;
 
-	&:hover {
-		color: getCssVar(('button', 'hover', 'text-color'));
+	&:hover:not(.is-transparent) {
 		background-color: getCssVar(('button', 'hover', 'bg-color'));
 		border-color: getCssVar(('button', 'hover', 'border-color'));
+	}
+
+	&.is-transparent {
+		border-color: transparent;
+	}
+
+	&:hover {
+		color: getCssVar(('button', 'hover', 'text-color'));
 		outline: none;
 	}
 

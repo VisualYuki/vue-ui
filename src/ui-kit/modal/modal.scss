@@ -1,0 +1,29 @@
+@use '/src/theme/scss/utils/index.scss' as *;
+
+@include b('modal') {
+	//position: absolute;
+	//top: -100px;
+	width: 50%;
+	margin: 15vh auto 0;
+	padding: 16px;
+	border-radius: getCssVar(('border', 'radius', 'base'));
+
+	background-color: white;
+
+	@include m('opened') {
+		top: 0;
+	}
+
+	@include e('wrapper') {
+	}
+
+	@include e('header') {
+		display: flex;
+		align-items: center;
+		margin-bottom: 20px;
+	}
+
+	@include e('header-slot') {
+		flex-grow: 1;
+	}
+}

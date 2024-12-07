@@ -1,76 +1,96 @@
 <template>
-	<!-- <Tree :data="treeData"></Tree> -->
-	<!-- <UiButton>sdf</UiButton> -->
+	<UiButton @click="isOpened = true">open modal</UiButton>
+	<UiModal v-model="isOpened" @start-open="startOpen" @opened="opened">
+		<template #header>header title</template>
 
-	<!-- <collapse v-model="activeNames" accordion @change="change">
-			<collapse-item title="Consistency" name="1">
-				<div>
-					Consistent with real life: in line with the process and logic of real life, and comply with languages and habits that the users are
-					used to;
-				</div>
-				<div>
-					Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.
-				</div>
-			</collapse-item>
-			<collapse-item title="Feedback" name="2">
-				<div>Operation feedback: enable the users to clearly perceive their operations by style updates and interactive effects;</div>
-				<div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
-			</collapse-item>
-		</collapse> -->
-	<UiAlert type="primary">primary alert</UiAlert>
-	<UiAlert>primary alert</UiAlert>
-	<UiAlert center>center</UiAlert>
-	<UiAlert show-icon>show icon</UiAlert>
-	<UiAlert show-icon type="danger">show icon</UiAlert>
-	<UiAlert show-icon type="warning">show icon</UiAlert>
-	<UiAlert show-icon type="success">show icon</UiAlert>
-	<UiAlert show-icon title="title" description="description1">1</UiAlert>
-	<!-- <UiButton @click="console.log('click')" loading>default button</UiButton>
-	<UiButton type="primary" size="default" :icon="CircleCloseIcon">primary</UiButton>
-	<UiButton type="danger">danger</UiButton>
-	<UiButton type="danger" size="small" loading>danger small</UiButton>
-	<UiButton type="primary" circle disabled>primary circle</UiButton>
-	<UiButtonGroup type="success">
-		<UiButton>primary</UiButton>
-		<UiButton>danger</UiButton>
-		<UiButton>danger</UiButton>
-	</UiButtonGroup>
-	<br />
-	<UiIcon color="blue" size="30px" class="loading-animation">
-		<LoadingIcon></LoadingIcon>
-	</UiIcon> -->
+		<template #default>default content</template>
+		<template #footer>footer content</template>
+	</UiModal>
+	<button @click="toggle = !toggle">toggle block</button>
+	<Transition
+		enter-active-class="active"
+		enter-from-class="from"
+		enter-to-class="to"
+		@before-enter="beforeEnter"
+		@enter="enter"
+		@after-enter="afterEnter"
+	>
+		<div v-show="toggle" class="show-block">show block</div>
+	</Transition>
+	<div ref="test" class="test" style="">test</div>
+	<!-- <UiOverlay mask @click="handleClick">
+		<template #default><div style="height: 50px; background-color: red"></div></template>
+		<template #other>other slot</template>
+	</UiOverlay> -->
+	<!-- <div @click="console.log('click2')">
+		<div @click="console.log('click1')">hello</div>
+	</div> -->
 </template>
 
 <script lang="ts" setup>
-	//import Tree from '@/ui-kit/tree/tree.vue'
-	// import Collapse from './ui-kit/collapse/collapse.vue'
-	// import CollapseItem from './ui-kit/collapse/collapse-item.vue'
 	import UiButton from '@/ui-kit/button/UiButton.vue'
-	import UiButtonGroup from '@/ui-kit/button/UiButtonGroup.vue'
-	import {computed, ref} from 'vue'
-	import UiIcon from './ui-kit/icon/UiIcon.vue'
-	import LoadingIcon from './ui-kit/icons/LoadingIcon.vue'
-	import CircleCloseIcon from './ui-kit/icons/CircleCloseIcon.vue'
-	import {} from 'vue'
-	import UiAlert from './ui-kit/alert/UiAlert.vue'
+	import {nextTick, onMounted, ref} from 'vue'
+	import UiModal from './ui-kit/modal/UiModal.vue'
+	//import UiOverlay from './ui-kit/overlay/UiOverlay'
 
-	const test = ref('danger')
+	const toggle = ref(false)
+	const isOpened = ref(false)
 
-	setTimeout(() => {
-		test.value = 'info'
-	}, 5000)
+	function beforeEnter() {
+		debugger
+	}
 
-	const activeNames = ref(['2'])
+	const test = ref()
+	// onMounted(() => {
+	// 	//debugger
+	// 	debugger
+	// 	//test.value.style = 'display: block;'
+	// })
 
-	const treeData = [
-		{label: '1.1', children: [{label: '1.2', children: [{label: '1.2.1'}, {label: '1.2.2'}]}, {label: '1.2'}]},
-		{label: '2.1'},
-		{label: '3.1', children: [{label: '3.2', children: [{label: '3.3'}]}]}
-	]
+	// nextTick(() => {
+	// 	debugger
+	// 	test.value.style = 'opacity: 1'
+	// })
 
-	function change(value: any) {
-		console.log(value)
+	function enter(el) {
+		//done()
+		debugger
+	}
+
+	function afterEnter() {
+		debugger
+	}
+
+	function startOpen() {
+		console.log('mousedown')
+	}
+
+	function opened() {
+		console.log('mousedown')
 	}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+	.show-block {
+		//transition: all 5s linear;
+	}
+
+	.from {
+	}
+
+	.active {
+		opacity: 0;
+		transition: all 2s linear;
+		//opacity: 0;
+	}
+
+	.to {
+		opacity: 1;
+	}
+
+	.test {
+		opacity: 0;
+		display: block;
+		transition-duration: 2s;
+	}
+</style>
