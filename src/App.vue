@@ -1,7 +1,17 @@
 <template>
 	<UiButton @click="isOpened = true">open modal</UiButton>
-	<UiModal v-model="isOpened" @start-open="startOpen" @opened="opened">
+	<UiModal v-model="isOpened" @start-open="startOpen" @opened="opened" center>
 		<template #header>header title</template>
+
+		<template #default>
+			default content
+			<UiButton @click="isOpened2 = true">open modal</UiButton>
+		</template>
+		<template #footer>footer content</template>
+	</UiModal>
+
+	<UiModal v-model="isOpened2" @start-open="startOpen" @opened="opened" center>
+		<template #header>header title 2</template>
 
 		<template #default>default content</template>
 		<template #footer>footer content</template>
@@ -18,6 +28,10 @@
 		<div v-show="toggle" class="show-block">show block</div>
 	</Transition>
 	<div ref="test" class="test" style="">test</div>
+	<div class="flex" style="display: flex">
+		<div>1</div>
+		<div>2</div>
+	</div>
 	<!-- <UiOverlay mask @click="handleClick">
 		<template #default><div style="height: 50px; background-color: red"></div></template>
 		<template #other>other slot</template>
@@ -35,6 +49,7 @@
 
 	const toggle = ref(false)
 	const isOpened = ref(false)
+	const isOpened2 = ref(false)
 
 	function beforeEnter() {
 		debugger
@@ -54,19 +69,19 @@
 
 	function enter(el) {
 		//done()
-		debugger
+		//debugger
 	}
 
 	function afterEnter() {
-		debugger
+		//debugger
 	}
 
 	function startOpen() {
-		console.log('mousedown')
+		//console.log('mousedown')
 	}
 
 	function opened() {
-		console.log('mousedown')
+		//console.log('mousedown')
 	}
 </script>
 

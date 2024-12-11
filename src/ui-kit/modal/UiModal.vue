@@ -9,15 +9,21 @@
 			@after-leave="methods.onAfterLeave"
 		>
 			<UiOverlay v-show="model" @click="methods.closeModal('backdrop')">
-				<div :id="_computed.id.value" ref="element" v-bind="$attrs" role="dialog" :class="[ns.b(), props.modalClasses]">
-					<div v-if="state.ifModalContent" style="z-index: 1060" :class="[ns.e('wrapper'), _computed.modalDialogClasses.value]">
+				<div
+					:id="_computed.id.value"
+					ref="element"
+					v-bind="$attrs"
+					role="dialog"
+					:class="[ns.b(), props.modalClasses, _computed.modalDialogClasses.value]"
+				>
+					<div v-if="state.ifModalContent" style="z-index: 1060" :class="[ns.e('wrapper')]">
 						<div :class="ns.e('content')">
 							<div :class="ns.e('header')">
 								<div :class="ns.e('header-slot')">
 									<slot name="header"></slot>
 								</div>
-								<UiButton @click="methods.closeModal('close')" size="default" transparent>
-									<UiIcon>
+								<UiButton @click="methods.closeModal('close')" transparent>
+									<UiIcon size="18px">
 										<CloseIcon></CloseIcon>
 									</UiIcon>
 								</UiButton>
@@ -50,6 +56,7 @@
 	import UiButton from '../button/UiButton.vue'
 	import UiIcon from '../icon/UiIcon.vue'
 	import CloseIcon from '../icons/CloseIcon.vue'
+	import type {Size} from '@/types/size'
 
 	const props = defineProps({
 		teleportTo: {
@@ -68,14 +75,10 @@
 			type: [Array, String, Object],
 			default: undefined
 		},
-		dialogClass: {
-			type: [Array, String, Object],
-			default: undefined
-		},
-		fade: {
-			type: Boolean,
-			default: true
-		},
+		// fade: {
+		// 	type: Boolean,
+		// 	default: true
+		// },
 		closeOnBackdrop: {
 			type: Boolean,
 			default: true
@@ -88,26 +91,18 @@
 			type: [Boolean],
 			default: false
 		},
-		fullscreenSize: {
-			type: String as PropType<'sm' | 'md' | 'lg' | 'xl' | 'xxl'>,
-			default: ''
-		},
 		size: {
-			type: String as PropType<'sm' | 'lg' | 'xl' | 'md'>,
-			default: 'md'
+			type: String as PropType<Size>,
+			default: 'default'
 		},
-		centered: {
+		center: {
 			type: Boolean,
 			default: false
 		},
-		scrollable: {
-			type: Boolean,
-			default: false
-		},
-		autofocus: {
-			type: Boolean,
-			default: true
-		},
+		// scrollable: {
+		// 	type: Boolean,
+		// 	default: false
+		// },
 		destroyAfterClose: {
 			type: Boolean,
 			default: false
@@ -118,7 +113,7 @@
 	const ns = useNamespace('modal')
 
 	const state = reactive({
-		isActive: false,
+		//isActive: false,
 		ifModalContent: true
 	})
 	const element = ref()
@@ -136,7 +131,7 @@
 		},
 		onAfterEnter() {
 			emit('opened')
-			methods.openModal()
+			methods.beforeOpen()
 		},
 		onBeforeLeave() {
 			emit('start-close')
@@ -145,8 +140,11 @@
 			emit('closed')
 			methods.closeModal('hidden')
 		},
-		openModal() {
-			state.isActive = true
+		beforeOpen() {
+			methods.open()
+		},
+		open() {
+			//state.isActive = true
 			model.value = true
 			state.ifModalContent = true
 			//activate()
@@ -177,13 +175,12 @@
 	const _computed = {
 		id: computed(() => (props.id ? props.id : useId())),
 		modalDialogClasses: computed(() => [
-			props.dialogClass,
 			{
-				'modal-fullscreen': props.fullscreen === true,
-				[`modal-fullscreen-${props.fullscreenSize}-down`]: props.fullscreenSize !== undefined,
-				[`modal-${props.size}`]: props.size !== 'md',
-				'modal-dialog-centered': props.centered,
-				'modal-dialog-scrollable': props.scrollable
+				[ns.m('fullscreen')]: props.fullscreen === true,
+				[ns.m(props.size)]: props.size !== 'md',
+				[ns.m('center')]: props.center
+				// 'modal-dialog-scrollable': props.scrollable
+				// [`modal-fullscreen-${props.fullscreenSize}-down`]: props.fullscreenSize !== undefined,
 			}
 		])
 	}
@@ -226,7 +223,7 @@
 
 	defineExpose({
 		close: methods.closeModal,
-		open: methods.openModal,
+		open: methods.open,
 		id: _computed.id
 	})
 </script>
