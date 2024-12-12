@@ -8,7 +8,7 @@
 			@before-leave="methods.onBeforeLeave"
 			@after-leave="methods.onAfterLeave"
 		>
-			<UiOverlay v-show="model" @click="methods.closeModal('backdrop')">
+			<UiOverlay v-show="model" @click="methods.close('backdrop')">
 				<div
 					:id="_computed.id.value"
 					ref="element"
@@ -22,7 +22,7 @@
 								<div :class="ns.e('header-slot')">
 									<slot name="header"></slot>
 								</div>
-								<UiButton @click="methods.closeModal('close')" transparent>
+								<UiButton @click="methods.close('close')" transparent>
 									<UiIcon size="18px">
 										<CloseIcon></CloseIcon>
 									</UiIcon>
@@ -99,6 +99,10 @@
 			type: Boolean,
 			default: false
 		},
+		beforeClose: {
+			type: Function,
+			default: undefined
+		},
 		// scrollable: {
 		// 	type: Boolean,
 		// 	default: false
@@ -114,7 +118,8 @@
 
 	const state = reactive({
 		//isActive: false,
-		ifModalContent: true
+		ifModalContent: true,
+		skipModelProtection: false
 	})
 	const element = ref()
 	const model = defineModel({
@@ -138,7 +143,7 @@
 		},
 		onAfterLeave() {
 			emit('closed')
-			methods.closeModal('hidden')
+			//methods.close('hidden')
 		},
 		beforeOpen() {
 			methods.open()
@@ -149,7 +154,7 @@
 			state.ifModalContent = true
 			//activate()
 		},
-		closeModal(trigger: 'ok' | 'backdrop' | 'esc' | 'close' | 'hidden' | '' = '') {
+		close(trigger: 'ok' | 'backdrop' | 'esc' | 'close' | 'hidden' | '' = '') {
 			if ((trigger === 'backdrop' && !props.closeOnBackdrop) || (trigger === 'esc' && !props.closeOnEscape)) {
 				emit('hide-prevented')
 				return
@@ -167,8 +172,18 @@
 				emit(trigger)
 			}
 
+			if (props.beforeClose) {
+				emit('hide-prevented')
+				props.beforeClose?.(methods.doClose)
+				return
+			}
+
+			methods.doClose()
+
+			//deactivate()
+		},
+		doClose() {
 			model.value = false
-			deactivate()
 		}
 	}
 
@@ -177,7 +192,7 @@
 		modalDialogClasses: computed(() => [
 			{
 				[ns.m('fullscreen')]: props.fullscreen === true,
-				[ns.m(props.size)]: props.size !== 'md',
+				[ns.m(props.size)]: props.size !== 'default',
 				[ns.m('center')]: props.center
 				// 'modal-dialog-scrollable': props.scrollable
 				// [`modal-fullscreen-${props.fullscreenSize}-down`]: props.fullscreenSize !== undefined,
@@ -189,7 +204,7 @@
 		onKeyStroke(
 			'Escape',
 			() => {
-				methods.closeModal('esc')
+				methods.close('esc')
 			},
 			{target: element}
 		)
@@ -222,7 +237,7 @@
 	// })
 
 	defineExpose({
-		close: methods.closeModal,
+		close: methods.close,
 		open: methods.open,
 		id: _computed.id
 	})

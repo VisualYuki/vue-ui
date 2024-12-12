@@ -1,6 +1,6 @@
 <template>
 	<UiButton @click="isOpened = true">open modal</UiButton>
-	<UiModal v-model="isOpened" @start-open="startOpen" @opened="opened" center>
+	<UiModal v-model="isOpened" @start-open="startOpen" @opened="opened">
 		<template #header>header title</template>
 
 		<template #default>
@@ -10,7 +10,7 @@
 		<template #footer>footer content</template>
 	</UiModal>
 
-	<UiModal v-model="isOpened2" @start-open="startOpen" @opened="opened" center>
+	<!-- <UiModal v-model="isOpened2" @start-open="startOpen" @opened="opened" center>
 		<template #header>header title 2</template>
 
 		<template #default>default content</template>
@@ -31,7 +31,7 @@
 	<div class="flex" style="display: flex">
 		<div>1</div>
 		<div>2</div>
-	</div>
+	</div> -->
 	<!-- <UiOverlay mask @click="handleClick">
 		<template #default><div style="height: 50px; background-color: red"></div></template>
 		<template #other>other slot</template>
@@ -51,9 +51,12 @@
 	const isOpened = ref(false)
 	const isOpened2 = ref(false)
 
-	function beforeEnter() {
+	function beforeClose(done: Function) {
 		debugger
+		setTimeout(done, 3000)
 	}
+
+	function beforeEnter() {}
 
 	const test = ref()
 	// onMounted(() => {
